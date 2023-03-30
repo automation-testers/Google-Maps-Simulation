@@ -1,0 +1,20 @@
+{
+  "server": "hub-cloud.browserstack.com",
+  "username": "gyansahoo_umykKR",
+  "access_key": "M4cr6ipiRP1HYwBzN7Ar",
+
+  "capabilities": {
+    "project": "First TestNg Android Project1",
+    "build": "browserstack-gyanadeep",
+    "name": "first_test",
+    "browserstack.debug": true,
+    "app": "bs://4b7f5c2046dd8bf4bfb420db62c506783b93bbf5"
+  },
+
+  "environments": [
+    {
+      "device": "Google Pixel 3 XL",
+      "os_version": "9.0"
+    }
+  ]
+}
