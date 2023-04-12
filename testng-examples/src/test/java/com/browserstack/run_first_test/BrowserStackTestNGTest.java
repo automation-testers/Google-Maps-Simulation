@@ -25,7 +25,13 @@ public class BrowserStackTestNGTest {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {
-        JSONParser parser = new JSONParser();
+
+        //NewDriver();
+
+    }
+
+    void NewDriver() throws Exception
+    {JSONParser parser = new JSONParser();
         JSONObject config = (JSONObject) parser.parse(new FileReader("src/test/resources/com/browserstack/run_first_test/first.conf.json"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -61,10 +67,10 @@ public class BrowserStackTestNGTest {
         if (app != null && !app.isEmpty()) {
             capabilities.setCapability("app", app);
         }
-
         driver = new AndroidDriver(new URL("http://" + username + ":" + accessKey + "@" + config.get("server") + "/wd/hub"), capabilities);
         driver.resetApp();
-        Thread.sleep(5000);
+        Thread.sleep(1000);
+
     }
 
     @AfterMethod(alwaysRun = true)
