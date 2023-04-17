@@ -21,6 +21,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -331,9 +333,9 @@ void SaveToTimeLine(String ShopName) throws InterruptedException {
     YesButton.click();
 
 }
-    public static List<String> ReadCsv()
-    {
-        Path fileName = Paths.get("C:\\Users\\Patil\\Downloads\\Directions.csv");
+    public static List<String> ReadCsv() throws URISyntaxException {
+        Path fileName = Paths.get("src/test/resources/Directions.csv");
+//      Path fileName = Paths.get("C:\\Users\\Patil\\Downloads\\Directions.csv");
         List<String> Rows=null;
         // Now calling Files.readString() method to
         // read the file

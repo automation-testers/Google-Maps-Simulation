@@ -7,7 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="testng-browserstack" />
-        <module name="testng-examples" />
+        <module name="Google-Maps-Simulation" />
       </profile>
     </annotationProcessing>
   </component>
