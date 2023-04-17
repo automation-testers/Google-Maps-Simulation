@@ -2,12 +2,12 @@
 <testng-results total="3" passed="0" failed="1" skipped="2">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2023-04-17T15:29:46Z" name="Surefire suite" finished-at="2023-04-17T15:38:50Z" duration-ms="544410">
+  <suite started-at="2023-04-17T19:09:33Z" name="Surefire suite" finished-at="2023-04-17T19:20:42Z" duration-ms="669394">
     <groups>
     </groups>
-    <test started-at="2023-04-17T15:29:46Z" name="Surefire test" finished-at="2023-04-17T15:38:50Z" duration-ms="544410">
+    <test started-at="2023-04-17T19:09:33Z" name="Surefire test" finished-at="2023-04-17T19:20:42Z" duration-ms="669394">
       <class name="com.browserstack.run_parallel_test.ParallelTest">
-        <test-method is-config="true" signature="setUp(java.lang.String)[pri:0, instance:com.browserstack.run_parallel_test.ParallelTest@73d4cc9e]" started-at="2023-04-17T08:38:50Z" name="setUp" finished-at="2023-04-17T08:38:50Z" duration-ms="0" status="FAIL">
+        <test-method is-config="true" signature="setUp(java.lang.String)[pri:0, instance:com.browserstack.run_parallel_test.ParallelTest@73d4cc9e]" started-at="2023-04-17T12:20:42Z" name="setUp" finished-at="2023-04-17T12:20:42Z" duration-ms="0" status="FAIL">
           <exception class="org.testng.TestNGException">
             <message>
               <![CDATA[
@@ -52,11 +52,11 @@ Parameter 'deviceIndex' is required by @Configuration on method setUp but has no
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="test()[pri:0, instance:com.browserstack.run_parallel_test.ParallelTest@73d4cc9e]" started-at="2023-04-17T08:38:50Z" name="test" finished-at="2023-04-17T08:38:50Z" duration-ms="0" status="SKIP">
+        <test-method signature="test()[pri:0, instance:com.browserstack.run_parallel_test.ParallelTest@73d4cc9e]" started-at="2023-04-17T12:20:42Z" name="test" finished-at="2023-04-17T12:20:42Z" duration-ms="0" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- test -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.browserstack.run_parallel_test.ParallelTest@73d4cc9e]" started-at="2023-04-17T08:38:50Z" name="tearDown" finished-at="2023-04-17T08:38:50Z" duration-ms="0" status="FAIL">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.browserstack.run_parallel_test.ParallelTest@73d4cc9e]" started-at="2023-04-17T12:20:42Z" name="tearDown" finished-at="2023-04-17T12:20:42Z" duration-ms="0" status="FAIL">
           <exception class="java.lang.NullPointerException">
             <message>
               <![CDATA[Cannot invoke "io.appium.java_client.android.AndroidDriver.quit()" because "this.driver" is null]]>
@@ -103,11 +103,11 @@ Parameter 'deviceIndex' is required by @Configuration on method setUp but has no
         </test-method> <!-- tearDown -->
       </class> <!-- com.browserstack.run_parallel_test.ParallelTest -->
       <class name="com.browserstack.run_local_test.LocalTest">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.browserstack.run_local_test.LocalTest@382db087]" started-at="2023-04-17T08:38:49Z" name="setUp" finished-at="2023-04-17T08:38:49Z" duration-ms="0" status="FAIL">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.browserstack.run_local_test.LocalTest@382db087]" started-at="2023-04-17T12:20:41Z" name="setUp" finished-at="2023-04-17T12:20:41Z" duration-ms="0" status="FAIL">
           <exception class="org.openqa.selenium.SessionNotCreatedException">
             <message>
               <![CDATA[Unable to create a new remote session. Please check the server log for more details. Original error: Invalid username or password (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 1.10 seconds
+Command duration or timeout: 1.09 seconds
 Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
 System info: host: 'VPL-RDS01', ip: '192.168.1.26', os.name: 'Windows Server 2016', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.4.1'
 Driver info: driver.version: AndroidDriver
@@ -117,7 +117,7 @@ Driver info: driver.version: AndroidDriver]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.openqa.selenium.SessionNotCreatedException: Unable to create a new remote session. Please check the server log for more details. Original error: Invalid username or password (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 1.10 seconds
+Command duration or timeout: 1.09 seconds
 Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
 System info: host: 'VPL-RDS01', ip: '192.168.1.26', os.name: 'Windows Server 2016', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.4.1'
 Driver info: driver.version: AndroidDriver
@@ -177,7 +177,7 @@ Caused by: java.lang.reflect.InvocationTargetException
 	at io.appium.java_client.remote.AppiumCommandExecutor$1.createSession(AppiumCommandExecutor.java:186)
 	... 44 more
 Caused by: org.openqa.selenium.WebDriverException: Invalid username or password (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 1.10 seconds
+Command duration or timeout: 1.09 seconds
 Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
 System info: host: 'VPL-RDS01', ip: '192.168.1.26', os.name: 'Windows Server 2016', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.4.1'
 Driver info: driver.version: AndroidDriver
@@ -208,11 +208,11 @@ Driver info: driver.version: AndroidDriver
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="test()[pri:0, instance:com.browserstack.run_local_test.LocalTest@382db087]" started-at="2023-04-17T08:38:50Z" name="test" finished-at="2023-04-17T08:38:50Z" duration-ms="0" status="SKIP">
+        <test-method signature="test()[pri:0, instance:com.browserstack.run_local_test.LocalTest@382db087]" started-at="2023-04-17T12:20:42Z" name="test" finished-at="2023-04-17T12:20:42Z" duration-ms="0" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- test -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.browserstack.run_local_test.LocalTest@382db087]" started-at="2023-04-17T08:38:50Z" name="tearDown" finished-at="2023-04-17T08:38:50Z" duration-ms="0" status="FAIL">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.browserstack.run_local_test.LocalTest@382db087]" started-at="2023-04-17T12:20:42Z" name="tearDown" finished-at="2023-04-17T12:20:42Z" duration-ms="0" status="FAIL">
           <exception class="java.lang.NullPointerException">
             <message>
               <![CDATA[Cannot invoke "io.appium.java_client.android.AndroidDriver.quit()" because "this.driver" is null]]>
@@ -259,20 +259,20 @@ Driver info: driver.version: AndroidDriver
         </test-method> <!-- tearDown -->
       </class> <!-- com.browserstack.run_local_test.LocalTest -->
       <class name="com.browserstack.run_first_test.FirstTest">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.browserstack.run_first_test.FirstTest@b9afc07]" started-at="2023-04-17T08:29:46Z" name="setUp" finished-at="2023-04-17T08:29:46Z" duration-ms="5" status="PASS">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.browserstack.run_first_test.FirstTest@b9afc07]" started-at="2023-04-17T12:09:33Z" name="setUp" finished-at="2023-04-17T12:09:33Z" duration-ms="11" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="test()[pri:0, instance:com.browserstack.run_first_test.FirstTest@b9afc07]" started-at="2023-04-17T08:29:46Z" name="test" finished-at="2023-04-17T08:38:48Z" duration-ms="541856" status="FAIL">
+        <test-method signature="test()[pri:0, instance:com.browserstack.run_first_test.FirstTest@b9afc07]" started-at="2023-04-17T12:09:33Z" name="test" finished-at="2023-04-17T12:20:39Z" duration-ms="666819" status="FAIL">
           <exception class="org.openqa.selenium.TimeoutException">
             <message>
-              <![CDATA[Expected condition failed: waiting for com.browserstack.run_first_test.FirstTest$2@67d86804 (tried for 10 second(s) with 300 milliseconds interval)
+              <![CDATA[Expected condition failed: waiting for com.browserstack.run_first_test.FirstTest$2@5af8bb51 (tried for 10 second(s) with 300 milliseconds interval)
 Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
 System info: host: 'VPL-RDS01', ip: '192.168.1.26', os.name: 'Windows Server 2016', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.4.1'
 Driver info: driver.version: unknown]]>
             </message>
             <full-stacktrace>
-              <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for com.browserstack.run_first_test.FirstTest$2@67d86804 (tried for 10 second(s) with 300 milliseconds interval)
+              <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for com.browserstack.run_first_test.FirstTest$2@5af8bb51 (tried for 10 second(s) with 300 milliseconds interval)
 Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
 System info: host: 'VPL-RDS01', ip: '192.168.1.26', os.name: 'Windows Server 2016', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.4.1'
 Driver info: driver.version: unknown
@@ -317,7 +317,7 @@ Driver info: driver.version: unknown
           <reporter-output>
           </reporter-output>
         </test-method> <!-- test -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.browserstack.run_first_test.FirstTest@b9afc07]" started-at="2023-04-17T08:38:48Z" name="tearDown" finished-at="2023-04-17T08:38:49Z" duration-ms="1401" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.browserstack.run_first_test.FirstTest@b9afc07]" started-at="2023-04-17T12:20:39Z" name="tearDown" finished-at="2023-04-17T12:20:41Z" duration-ms="1435" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
