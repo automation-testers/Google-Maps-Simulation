@@ -1,0 +1,11 @@
+com\browserstack\run_first_test\BrowserStackTestNGTest.class
+com\browserstack\run_first_test\FirstTest$1.class
+com\browserstack\run_first_test\TOTPGenerator.class
+com\browserstack\run_parallel_test\BrowserStackTestNGTest.class
+com\browserstack\run_parallel_test\ParallelTest.class
+com\browserstack\run_first_test\FirstTest$2.class
+com\browserstack\run_first_test\CsvFileRead.class
+com\browserstack\run_first_test\FirstTest$SearchBy.class
+com\browserstack\run_local_test\BrowserStackTestNGTest.class
+com\browserstack\run_local_test\LocalTest.class
+com\browserstack\run_first_test\FirstTest.class
