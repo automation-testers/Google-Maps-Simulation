@@ -65,7 +65,7 @@ public class FirstTest extends BrowserStackTestNGTest {
 
         }
         System.out.println("#############Test Finished#############");
-        driver.quit();
+
     }
 
     void SetWait()
