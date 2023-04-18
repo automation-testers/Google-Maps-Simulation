@@ -44,6 +44,8 @@ public class FirstTest extends BrowserStackTestNGTest {
 
     @Test
     public void test() throws Exception {
+
+        System.out.println("#############Test Started#############");
         List<String>Addresses =ReadCsv();
 
         String[] Parts= Addresses.get(1).split(",");
@@ -62,6 +64,7 @@ public class FirstTest extends BrowserStackTestNGTest {
             performTest(Parts);
 
         }
+        System.out.println("#############Test Finished#############");
         driver.quit();
     }
 
