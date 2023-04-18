@@ -26,7 +26,7 @@ public class BrowserStackTestNGTest {
     @BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {
 
-        //NewDriver();
+        NewDriver();
 
     }
 

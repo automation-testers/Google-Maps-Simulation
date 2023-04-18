@@ -45,26 +45,29 @@ public class FirstTest extends BrowserStackTestNGTest {
     @Test
     public void test() throws Exception {
 
-        System.out.println("#############Test Started#############");
+        System.out.println("#############Test Started#######");
         List<String>Addresses =ReadCsv();
 
         String[] Parts= Addresses.get(1).split(",");
 
 
 //        SkipLogin();
-        for (int i=1;i<Addresses.size();i++) {
-            if(driver!=null)
-            { driver.quit();}
-
-            NewDriver();
+        int i=1;
+        do  {
             SetWait();
             Parts = Addresses.get(i).split(",");
             Login(Parts);
             //SkipLogin();
             performTest(Parts);
-
-        }
-        System.out.println("#############Test Finished#############");
+            i++;
+            if(i<Addresses.size())
+            {
+                if(driver!=null)
+                { driver.quit();}
+                NewDriver();
+            }
+        }while(i<Addresses.size());
+        System.out.println("######Test Finished#############");
 
     }
 
