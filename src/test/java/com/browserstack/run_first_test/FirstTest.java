@@ -67,7 +67,7 @@ public class FirstTest extends BrowserStackTestNGTest {
                 NewDriver();
             }
         }while(i<Addresses.size());
-        System.out.println("######Test Finished#############");
+        System.out.println("#############Test Finished#############");
 
     }
 

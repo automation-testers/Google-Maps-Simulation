@@ -67,6 +67,8 @@ public class BrowserStackTestNGTest {
         if (app != null && !app.isEmpty()) {
             capabilities.setCapability("app", app);
         }
+
+
         driver = new AndroidDriver(new URL("http://" + username + ":" + accessKey + "@" + config.get("server") + "/wd/hub"), capabilities);
         driver.resetApp();
         Thread.sleep(1000);
