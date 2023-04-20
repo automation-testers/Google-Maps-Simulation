@@ -74,7 +74,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     void SetWait()
     {
         wait = new FluentWait(driver)
-                .withTimeout(10, SECONDS)
+                .withTimeout(13, SECONDS)
                 .pollingEvery(300, MILLISECONDS)
                 .ignoring(Exception.class);
     }
@@ -143,15 +143,20 @@ public class FirstTest extends BrowserStackTestNGTest {
     }
     public void performTest(String[] Parts) throws Exception
     {
+        //Get list of lat long
+        List<LatLng> latLngs = DirectionPolyline.GetDirections(Parts[5], Parts[6]);
+
         Scrolls=0;
         float Lat,Lng,Alt;
-        System.out.println("Location: "+Double.parseDouble(Parts[5])+","+ Double.parseDouble(Parts[6]));
-        driver.setLocation(new Location(Double.parseDouble(Parts[5]), Double.parseDouble(Parts[6]),0));
+        //System.out.println("Location: "+Double.parseDouble(Parts[5])+","+ Double.parseDouble(Parts[6]));
+        System.out.println("Location: "+Parts[5]+","+ Parts[6]);
+
+        driver.setLocation(new Location(latLngs.get(0).getLat(), latLngs.get(0).getLng(),0));
 
         SearchKeyword(Parts[3]);
-        if(!FindShop(Parts[4],Integer.parseInt(Parts[21]))){ return; }
+        if(!FindShop(Parts[4],Integer.parseInt(Parts[8]))){ return; }
         StartDirectionsFromList();
-        SimulateLocations(Parts);
+        SimulateLocations(Parts, latLngs );
         RestartDirection();
         FinishDirections();
         SaveToTimeLine(Parts[4]);
@@ -288,22 +293,26 @@ public class FirstTest extends BrowserStackTestNGTest {
     }
 
 
-    void SimulateLocations(String[] Parts) throws Exception
+    void SimulateLocations(String[] Parts,List<LatLng> latLngs) throws Exception
     {
-        driver.setLocation(new Location(Double.parseDouble(Parts[7]), Double.parseDouble(Parts[8]), 0));
-        Thread.sleep(Integer.parseInt(Parts[20]));
+        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*1).getLat(), latLngs.get((latLngs.size()/6)*1).getLng(),0));
+        Thread.sleep(Integer.parseInt(Parts[7]));
 
-        driver.setLocation(new Location(Double.parseDouble(Parts[9]), Double.parseDouble(Parts[10]), 0));
-        Thread.sleep(Integer.parseInt(Parts[20]));
+        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*2).getLat(), latLngs.get((latLngs.size()/6)*2).getLng(),0));
+        Thread.sleep(Integer.parseInt(Parts[7]));
 
-        driver.setLocation(new Location(Double.parseDouble(Parts[11]), Double.parseDouble(Parts[12]), 0));
-        Thread.sleep(Integer.parseInt(Parts[20]));
+        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*3).getLat(), latLngs.get((latLngs.size()/6)*3).getLng(),0));
+        Thread.sleep(Integer.parseInt(Parts[7]));
 
-        driver.setLocation(new Location(Double.parseDouble(Parts[13]), Double.parseDouble(Parts[14]), 0));
-        Thread.sleep(Integer.parseInt(Parts[20]));
-        driver.setLocation(new Location(Double.parseDouble(Parts[15]), Double.parseDouble(Parts[16]), 0));
-        Thread.sleep(Integer.parseInt(Parts[20]));
-        driver.setLocation(new Location(Double.parseDouble(Parts[17]), Double.parseDouble(Parts[18]), 0));
+        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*4).getLat(), latLngs.get((latLngs.size()/6)*4).getLng(),0));
+        Thread.sleep(Integer.parseInt(Parts[7]));
+
+        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*5).getLat(), latLngs.get((latLngs.size()/6)*5).getLng(),0));
+        Thread.sleep(Integer.parseInt(Parts[7]));
+
+        driver.setLocation(new Location(latLngs.get(latLngs.size()-1).getLat(), latLngs.get(latLngs.size()-1).getLng(),0));
+        Thread.sleep(Integer.parseInt(Parts[7]));
+
 
         Thread.sleep(1000);
     }
