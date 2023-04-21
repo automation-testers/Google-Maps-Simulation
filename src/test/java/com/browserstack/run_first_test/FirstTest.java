@@ -74,7 +74,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     void SetWait()
     {
         wait = new FluentWait(driver)
-                .withTimeout(13, SECONDS)
+                .withTimeout(15, SECONDS)
                 .pollingEvery(300, MILLISECONDS)
                 .ignoring(Exception.class);
     }
@@ -295,23 +295,25 @@ public class FirstTest extends BrowserStackTestNGTest {
 
     void SimulateLocations(String[] Parts,List<LatLng> latLngs) throws Exception
     {
-        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*1).getLat(), latLngs.get((latLngs.size()/6)*1).getLng(),0));
-        Thread.sleep(Integer.parseInt(Parts[7]));
-
-        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*2).getLat(), latLngs.get((latLngs.size()/6)*2).getLng(),0));
-        Thread.sleep(Integer.parseInt(Parts[7]));
-
-        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*3).getLat(), latLngs.get((latLngs.size()/6)*3).getLng(),0));
-        Thread.sleep(Integer.parseInt(Parts[7]));
-
-        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*4).getLat(), latLngs.get((latLngs.size()/6)*4).getLng(),0));
-        Thread.sleep(Integer.parseInt(Parts[7]));
-
-        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*5).getLat(), latLngs.get((latLngs.size()/6)*5).getLng(),0));
-        Thread.sleep(Integer.parseInt(Parts[7]));
-
-        driver.setLocation(new Location(latLngs.get(latLngs.size()-1).getLat(), latLngs.get(latLngs.size()-1).getLng(),0));
-        Thread.sleep(Integer.parseInt(Parts[7]));
+        for (int i=0;i<latLngs.size();i++)
+        {
+            driver.setLocation(new Location(latLngs.get(i).getLat(), latLngs.get(i).getLng(),0));
+            Thread.sleep(Integer.parseInt(Parts[7]));
+        }
+//        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*1).getLat(), latLngs.get((latLngs.size()/6)*1).getLng(),0));
+//        Thread.sleep(Integer.parseInt(Parts[7]));
+//
+//        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*2).getLat(), latLngs.get((latLngs.size()/6)*2).getLng(),0));
+//        Thread.sleep(Integer.parseInt(Parts[7]));
+//
+//        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*3).getLat(), latLngs.get((latLngs.size()/6)*3).getLng(),0));
+//        Thread.sleep(Integer.parseInt(Parts[7]));
+//
+//        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*4).getLat(), latLngs.get((latLngs.size()/6)*4).getLng(),0));
+//        Thread.sleep(Integer.parseInt(Parts[7]));
+//
+//        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*5).getLat(), latLngs.get((latLngs.size()/6)*5).getLng(),0));
+//        Thread.sleep(Integer.parseInt(Parts[7]));
 
 
         Thread.sleep(1000);
@@ -320,8 +322,9 @@ public class FirstTest extends BrowserStackTestNGTest {
     void FinishDirections()
     {
         //After Reaching Click on Done
-       WebElement DoneButton= FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
-       if(DoneButton!=null)
+//       WebElement DoneButton= FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
+        WebElement DoneButton= FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
+        if(DoneButton!=null)
        {
            try {
                FindEle(wait,SearchBy.ByXPath,"\t/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
@@ -346,6 +349,7 @@ void SaveToTimeLine(String ShopName) throws InterruptedException {
 
     WebElement YesButton= GetElement(wait,0,"yes","android.widget.Button");
     YesButton.click();
+    Thread.sleep(1000);
 
 }
     public static List<String> ReadCsv() throws URISyntaxException {
