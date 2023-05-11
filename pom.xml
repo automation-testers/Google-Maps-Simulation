@@ -19,7 +19,14 @@
     </properties>
 
     <dependencies>
-    <dependency>
+        <dependency>
+            <groupId>CSVReader</groupId>
+            <artifactId>CSVReader</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/local-maven-repo/CSVReader.jar</systemPath>
+        </dependency>
+        <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <version>6.9.10</version>
@@ -62,6 +69,9 @@
             <artifactId>commons-csv</artifactId>
             <version>1.6</version>
         </dependency>
+
+
+
 
     </dependencies>
 

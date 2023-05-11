@@ -1,5 +1,6 @@
 package com.browserstack.run_first_test;
 
+import CSVReader.Rows;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
@@ -126,6 +127,40 @@ public class FirstTest extends BrowserStackTestNGTest {
         AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
 
+
+        //Add phone Number
+        try {
+            WebElement Add_Phn_No = GetElement(wait, 0, "Add phone number?", "android.widget.TextView", "");
+            if (Add_Phn_No != null) {
+                if (Add_Phn_No.getText().contains("Add phone number?")) {
+                    //Skip Button
+                    ScrollForLoctionHistory();
+                    FindEle(wait, SearchBy.ByXPath, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View/android.widget.Button").click();
+
+                }
+            }
+        }catch (Exception e)
+        {
+
+        }
+
+        //Never lose your contacts
+        try{
+            WebElement Never_lose_Contact = GetElement(wait,0,"Never lose your contacts","android.widget.TextView","");
+            if(Never_lose_Contact!=null)
+            {
+                if (Never_lose_Contact.getText().contains("Never lose your contacts"))
+                {
+                    //Don't turn On Button
+                    FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View/android.widget.Button").click();
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+
+
         //I Agree
         WebElement IAgree = FindEle(wait,SearchBy.ByButton,"I agree");
         if(IAgree!=null)
@@ -156,10 +191,11 @@ public class FirstTest extends BrowserStackTestNGTest {
         driver.setLocation(new Location(latLngs.get(0).getLat(), latLngs.get(0).getLng(),0));
 
         locationActivity();
-//        LocHistoryNWebActivity();
-//        LoctionHistory();
+        // LocHistoryNWebActivity();
+        // LoctionHistory();
         SearchKeyword(Parts[3]);
-        if(!FindShop(Parts[4],Integer.parseInt(Parts[8]))){ return; }
+        if(!FindShop(Parts[4],Parts[6],Integer.parseInt(Parts[8]))){ return; }
+
         StartDirectionsFromList();
         SimulateLocations(Parts, latLngs );
         RestartDirection();
@@ -168,7 +204,6 @@ public class FirstTest extends BrowserStackTestNGTest {
         Review(Parts);
         Thread.sleep(5000);
     }
-
 
     WebElement ActivateSearchBox() throws InterruptedException
     {
@@ -189,7 +224,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     }
 
     int Scrolls=0;
-    boolean FindShop(String ShopName,int MaxScrollCount) throws InterruptedException {
+    boolean FindShop(String ShopName,String Address,int MaxScrollCount) throws InterruptedException {
 
         System.out.println("*****************Searching for:"+ShopName+"*********");
         try {
@@ -197,14 +232,33 @@ public class FirstTest extends BrowserStackTestNGTest {
             if(SearchLocationTextView!=null)
             {
                 SearchLocationTextView.click();
-                return true;
+                // new code to match address------------------
+                ScrollForShopAddress();
+                List<AndroidElement> ListElement = driver.findElements(By.className("android.widget.TextView"));
+                for(WebElement we : ListElement)
+                {
+                    if(we.getText().replace(","," ").toLowerCase().contains(Address.substring(0,20).toLowerCase()))
+                    {
+                        System.out.println("*****************Address Matched*********");
+                        return true;
+                    }
+                }
+
+                System.out.println("*****************Address not Match*********");
+                //Click Back Button
+                FindEle(wait,SearchBy.ByXPath,"//*[(@content-desc='Back to Search')]").click();
+                Thread.sleep(2000);
+                Scroll();
+                Scrolls++;
+                return FindShop(ShopName,Address,MaxScrollCount);
+                // new code to match address------------------
             }
         }catch (Exception e){
             if(Scrolls<MaxScrollCount)
             {
                 Scroll();
                 Scrolls++;
-                return FindShop(ShopName,MaxScrollCount);
+                return FindShop(ShopName,Address,MaxScrollCount);
             }
             else{
                 driver.navigate().back();
@@ -305,14 +359,14 @@ public class FirstTest extends BrowserStackTestNGTest {
 
     void SimulateLocations(String[] Parts,List<LatLng> latLngs) throws Exception
     {
-//        for (int i=0;i<latLngs.size();i++)
-//        {
-//            driver.setLocation(new Location(latLngs.get(i).getLat(), latLngs.get(i).getLng(),0));
-//            Thread.sleep(Integer.parseInt(Parts[7]));
-//        }
+        for (int i=0;i<latLngs.size();i++)
+        {
+            driver.setLocation(new Location(latLngs.get(i).getLat(), latLngs.get(i).getLng(),0));
+            Thread.sleep(Integer.parseInt(Parts[7]));
+        }
 
-        driver.setLocation(new Location(latLngs.get(latLngs.size()-1).getLat(), latLngs.get(latLngs.size()-1).getLng(),0));
-        Thread.sleep(Integer.parseInt(Parts[7]));
+//        driver.setLocation(new Location(latLngs.get(latLngs.size()-1).getLat(), latLngs.get(latLngs.size()-1).getLng(),0));
+//        Thread.sleep(Integer.parseInt(Parts[7]));
 //        driver.setLocation(new Location(latLngs.get((latLngs.size()/6)*1).getLat(), latLngs.get((latLngs.size()/6)*1).getLng(),0));
 //        Thread.sleep(Integer.parseInt(Parts[7]));
 //
@@ -369,7 +423,11 @@ public class FirstTest extends BrowserStackTestNGTest {
     void Review(String[] Parts) throws InterruptedException {
         if(Parts.length>9 && !Parts[9].isEmpty())
         {
-            WebElement ReviewButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.HorizontalScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.TextView");
+            //old xpath review
+//            WebElement ReviewButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.HorizontalScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.TextView");
+//            ReviewButton.click();
+
+            WebElement ReviewButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.HorizontalScrollView/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.TextView");
             ReviewButton.click();
 
             WebElement Five_Star = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout[2]/android.support.v4.view.ViewPager/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.view.ViewGroup/android.widget.ImageView[5]");
@@ -389,16 +447,18 @@ public class FirstTest extends BrowserStackTestNGTest {
     public static List<String> ReadCsv() throws URISyntaxException {
         Path fileName = Paths.get("src/test/resources/Directions.csv");
 //      Path fileName = Paths.get("C:\\Users\\Patil\\Downloads\\Directions.csv");
-        List<String> Rows=null;
+        List<String> Rowss=null;
         // Now calling Files.readString() method to
         // read the file
         try {
-            Rows = Files.readAllLines(fileName);
+            Rowss = Files.readAllLines(fileName);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return Rows;
+        Rows rws=new Rows();
+        rws.ParseData(Rowss);
+        return Rowss;
     }
 
     enum SearchBy {
@@ -461,7 +521,7 @@ public class FirstTest extends BrowserStackTestNGTest {
             public WebElement apply(AndroidDriver driver) {
                 String[] XpathParts=Xpath.split("/");
                 WebElement ParentElement=null;
-                ; List<WebElement> ListElement ;
+                List<WebElement> ListElement ;
                 if(!Parent.isEmpty())
                 {
 //                    System.out.println("----------Parent Found-------------");
@@ -500,8 +560,14 @@ public class FirstTest extends BrowserStackTestNGTest {
 
         String AppPackage= driver.getCurrentPackage();
         ScreenOrientation orientation=  driver.getOrientation();
-        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[3]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ImageView");
+
+
+        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"//*[(@content-desc='Menu')]");
         More_Options.click();
+        Thread.sleep(2000);
+
+//        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[3]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ImageView");
+//        More_Options.click();
 
 //        WebElement Expand_Acc_Details_Option = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ImageButton");
 //        Expand_Acc_Details_Option.click();
@@ -515,16 +581,17 @@ public class FirstTest extends BrowserStackTestNGTest {
 //        WebElement Timeline_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.RelativeLayout[2]/android.widget.LinearLayout/android.widget.TableLayout/android.widget.TableRow/android.widget.TextView");
 //        Timeline_Options.click();
 
-        WebElement Advance_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[6]/android.widget.LinearLayout/android.widget.ImageView");
+        WebElement Advance_Options = GetElement(wait,0,"Advanced","android.widget.TextView","");
         Advance_Options.click();
 
         ScrollForLoctionHistory();
 
-        WebElement Google_Loc_History_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[7]/android.widget.LinearLayout[2]/android.widget.TextView");
+        WebElement Google_Loc_History_Options = GetElement(wait,0,"Google Location History","android.widget.TextView","");
+//        WebElement Google_Loc_History_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[7]/android.widget.LinearLayout[2]/android.widget.TextView");
         Thread.sleep(1000);
         Google_Loc_History_Options.click();
 
-        WebElement Loc_History_TurnOn_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.widget.Button");
+        WebElement Loc_History_TurnOn_Options = GetElement(wait,0,"Turn","/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.widget.Button","");
         String LocationStatus = Loc_History_TurnOn_Options.getText();
 
         if(LocationStatus.equals("Turn on"))
@@ -536,6 +603,7 @@ public class FirstTest extends BrowserStackTestNGTest {
             }while(!Turn_On_Button.isEnabled());
 
             Turn_On_Button.click();
+            System.out.println("*****************Web Activity and Location History Turned On*********");
 
             WebElement Gotit_Loc_On_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.app.Dialog/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
             Gotit_Loc_On_Options.click();
@@ -544,12 +612,13 @@ public class FirstTest extends BrowserStackTestNGTest {
             //driver.pressKeyCode(187);
             driver.activateApp(AppPackage);
             driver.rotate(orientation);
-            driver.pressKeyCode(4);
+            //driver.pressKeyCode(4);
 
         }else {
             Thread.sleep(5000);
             driver.activateApp(AppPackage);
             driver.rotate(orientation);
+            System.out.println("*****************Web Activity and Location History is Already On*********");
 //            driver.pressKeyCode(4);
         }
 
@@ -558,82 +627,111 @@ public class FirstTest extends BrowserStackTestNGTest {
         Back_button_Loc_On.click();
     }
 
-    void LocHistoryNWebActivity() throws InterruptedException {
+//    void LocHistoryNWebActivity() throws InterruptedException {
+//
+////        WebElement SearchLocationTextView = GetElement(wait,0,"Search here","android.widget.TextView","");
+////        SearchLocationTextView.click();
+////
+////        WebElement SearchLocationEditText = GetElement(wait,0,"Search here","android.widget.EditText","");
+////        SearchLocationEditText.click();
+//
+////        WebElement GPSLoc = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.ImageView");
+////        GPSLoc.click();
+//
+//        Thread.sleep(1000);
+//        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"//*[(@content-desc='Menu')]");
+//        More_Options.click();
+////        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[3]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout");
+////        More_Options.click();
+//
+//        WebElement Timeline_Option = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.RelativeLayout[2]/android.widget.LinearLayout/android.widget.TableLayout/android.widget.TableRow/android.widget.TextView");
+//        Timeline_Option.click();
+//
+//        WebElement Explore_Timeline_Letsgo = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.Button[2]");
+//        Explore_Timeline_Letsgo.click();
+//
+//        WebElement More_Options1 = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.LinearLayoutCompat/android.widget.ImageView");
+//        More_Options1.click();
+//
+//        WebElement SettingsTimeline = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView");
+//        SettingsTimeline.click();
+//
+//        // Web & App Activity
+//        WebElement Web_App_Activity_settings = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[4]/android.widget.RelativeLayout/android.widget.TextView[1]");
+//        Web_App_Activity_settings.click();
+//
+//        WebElement Web_App_Activity_TurnOn = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.widget.Button");
+//        String TurnOnButton = Web_App_Activity_TurnOn.getText();
+//
+//        if(TurnOnButton.equals("Turn on"))
+//        {
+//            Web_App_Activity_TurnOn.click();
+//            WebElement Turn_On_Button = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.app.Dialog/android.view.View/android.view.View[3]/android.view.View[2]/android.widget.Button");
+//            do {
+//                ScrollForLoctionHistory();
+//            }while(!Turn_On_Button.isEnabled());
+//            Turn_On_Button.click();
+//
+//            WebElement Gotit_Loc_On_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.app.Dialog/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
+//            Gotit_Loc_On_Options.click();
+//
+//            Thread.sleep(3000);
+//        }
+//        else
+//        {
+//            WebElement Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton");
+//            Backbutton.click();
+//        }
+//
+//        ScrollForLoctionHistory();
+//
+//        WebElement 	Location_History = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[5]/android.widget.RelativeLayout/android.widget.TextView[1]");
+//        Location_History.click();
+//    }
 
-        Thread.sleep(2000);
-        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[3]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ImageView");
-        More_Options.click();
-
-        WebElement Timeline_Option = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.RelativeLayout[2]/android.widget.LinearLayout/android.widget.TableLayout/android.widget.TableRow/android.widget.TextView");
-        Timeline_Option.click();
-
-        WebElement Explore_Timeline_Letsgo = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.Button[2]");
-        Explore_Timeline_Letsgo.click();
-
-        WebElement More_Options1 = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.LinearLayoutCompat/android.widget.ImageView");
-        More_Options1.click();
-
-        WebElement SettingsTimeline = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView");
-        SettingsTimeline.click();
-
-        // Web & App Activity
-        WebElement Web_App_Activity_settings = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[3]/android.widget.RelativeLayout/android.widget.TextView[1]");
-        Web_App_Activity_settings.click();
-
-        WebElement Web_App_Activity_TurnOn = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.widget.Button");
-        String TurnOnButton = Web_App_Activity_TurnOn.getText();
-
-        if(TurnOnButton.equals("Turn on"))
-        {
-            Web_App_Activity_TurnOn.click();
-            WebElement Turn_On_Button = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.app.Dialog/android.view.View/android.view.View[3]/android.view.View[2]/android.widget.Button");
-            do {
-                ScrollForLoctionHistory();
-            }while(!Turn_On_Button.isEnabled());
-            Turn_On_Button.click();
-
-            WebElement Gotit_Loc_On_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.app.Dialog/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
-            Gotit_Loc_On_Options.click();
-
-            Thread.sleep(3000);
-        }
-        else
-        {
-            WebElement Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton");
-            Backbutton.click();
-        }
-
-        ScrollForLoctionHistory();
-
-        WebElement 	Location_History = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[5]/android.widget.RelativeLayout/android.widget.TextView[1]");
-        Location_History.click();
-    }
-
-    void LoctionHistory() throws InterruptedException {
-        WebElement Location_History_TurnOn = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.widget.Button");
-        String Loc_TurnOnButton = Location_History_TurnOn.getText();
-
-        if(Loc_TurnOnButton.equals("Turn on"))
-        {
-            Location_History_TurnOn.click();
-
-            WebElement Gotit_Loc_On_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.app.Dialog/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
-            Gotit_Loc_On_Options.click();
-
-            Thread.sleep(3000);
-        }
-        else
-        {
-            WebElement Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton");
-            Backbutton.click();
-        }
-
-        WebElement Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.ImageButton");
-        Backbutton.click();
-
-        WebElement Time_Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton");
-        Time_Backbutton.click();
-    }
+//    void LoctionHistory() throws InterruptedException {
+//
+//        Thread.sleep(1000);
+//        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"//*[(@content-desc='Menu')]");
+//        More_Options.click();
+////        WebElement More_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[3]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout");
+////        More_Options.click();
+//        WebElement Timeline_Option = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.RelativeLayout[2]/android.widget.LinearLayout/android.widget.TableLayout/android.widget.TableRow/android.widget.TextView");
+//        Timeline_Option.click();
+//
+//        WebElement Explore_Timeline_Letsgo = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.Button[2]");
+//        Explore_Timeline_Letsgo.click();
+//
+//        WebElement More_Options1 = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.support.v7.widget.LinearLayoutCompat/android.widget.ImageView");
+//        More_Options1.click();
+//
+//        WebElement SettingsTimeline = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView");
+//        SettingsTimeline.click();
+//
+//        WebElement Location_History_TurnOn = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.widget.Button");
+//        String Loc_TurnOnButton = Location_History_TurnOn.getText();
+//
+//        if(Loc_TurnOnButton.equals("Turn on"))
+//        {
+//            Location_History_TurnOn.click();
+//
+//            WebElement Gotit_Loc_On_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.app.Dialog/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
+//            Gotit_Loc_On_Options.click();
+//
+//            Thread.sleep(3000);
+//        }
+//        else
+//        {
+//            WebElement Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton");
+//            Backbutton.click();
+//        }
+//
+//        WebElement Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.ImageButton");
+//        Backbutton.click();
+//
+//        WebElement Time_Backbutton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ImageButton");
+//        Time_Backbutton.click();
+//    }
 
 
     void ScrollForLoctionHistory() throws InterruptedException {
@@ -646,6 +744,22 @@ public class FirstTest extends BrowserStackTestNGTest {
 
 
         PointOption to= PointOption.point(100,100) ;
+        PointOption from= PointOption.point(100,height-300) ;
+        action.longPress(from)
+                .moveTo(to).release().perform();
+
+    }
+
+    void ScrollForShopAddress() throws InterruptedException {
+        //WebElement RecyclerView = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.support.v7.widget.RecyclerView");
+
+        TouchAction action = new TouchAction(driver);
+
+        int height = driver.manage().window().getSize().height;
+        int width = driver.manage().window().getSize().width;
+
+
+        PointOption to= PointOption.point(100,height-500) ;
         PointOption from= PointOption.point(100,height-300) ;
         action.longPress(from)
                 .moveTo(to).release().perform();

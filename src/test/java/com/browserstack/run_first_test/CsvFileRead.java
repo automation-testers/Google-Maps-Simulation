@@ -1,5 +1,6 @@
 package com.browserstack.run_first_test;
 
+import CSVReader.Rows;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -12,20 +13,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-
 public class CsvFileRead {
     public static List<String> CsvFIleRead() {
         Path fileName = Paths.get("C:\\Users\\Patil\\Downloads\\Directions.csv");
-        List<String> Rows = null;
+        List<String> Rowsa = null;
         // Now calling Files.readString() method to
         // read the file
         try {
-            Rows = Files.readAllLines(fileName);
+            Rowsa = Files.readAllLines(fileName);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return Rows;
+        Rows rws=new Rows();
+        rws.ParseData(Rowsa);
+        return Rowsa;
     }
 
 
