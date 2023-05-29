@@ -16,7 +16,7 @@ import java.util.List;
 public class CsvFileRead {
     public static List<String> CsvFIleRead() {
         //Path fileName = Paths.get("C:\\Users\\Patil\\Downloads\\Directions.csv");
-        Path fileName = Paths.get("/resources/Directions.csv");
+        Path fileName = Paths.get("/src/test/resources/Directions.csv");
         List<String> Rowsa = null;
         // Now calling Files.readString() method to
         // read the file
