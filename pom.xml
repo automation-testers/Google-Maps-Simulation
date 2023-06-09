@@ -19,12 +19,17 @@
     </properties>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>CSVReader</groupId>-->
+<!--            <artifactId>CSVReader</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/local-maven-repo/CSVReader.jar</systemPath>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>CSVReader</groupId>
-            <artifactId>CSVReader</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/local-maven-repo/CSVReader.jar</systemPath>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.7.1</version>
         </dependency>
         <dependency>
         <groupId>org.testng</groupId>

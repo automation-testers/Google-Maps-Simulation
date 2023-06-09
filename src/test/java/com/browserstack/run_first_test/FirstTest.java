@@ -1,7 +1,8 @@
 package com.browserstack.run_first_test;
 
-import CSVReader.Rows;
 import com.google.common.collect.ImmutableMap;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.TouchAction;
@@ -23,6 +24,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -49,16 +51,16 @@ public class FirstTest extends BrowserStackTestNGTest {
     public void test() throws Exception {
 
         System.out.println("#############Test Started#######");
-        List<String>Addresses =ReadCsv();
+        List<String[]>Addresses =ReadCsv();
 
-        String[] Parts= Addresses.get(1).split(",");
+        String[] Parts= Addresses.get(1);
 
 
 //        SkipLogin();
         int i=1;
         do  {
             SetWait();
-            Parts = Addresses.get(i).split(",");
+            Parts = Addresses.get(i);
             Login(Parts);
             //SkipLogin();
             performTest(Parts);
@@ -444,21 +446,32 @@ public class FirstTest extends BrowserStackTestNGTest {
         }
     }
 
-    public static List<String> ReadCsv() throws URISyntaxException {
+    public static List<String[]> ReadCsv() throws URISyntaxException {
         Path fileName = Paths.get("src/test/resources/Directions.csv");
 //      Path fileName = Paths.get("C:\\Users\\Patil\\Downloads\\Directions.csv");
-        List<String> Rowss=null;
-        // Now calling Files.readString() method to
-        // read the file
-        try {
-            Rowss = Files.readAllLines(fileName);
+
+        try (Reader reader = Files.newBufferedReader(fileName)) {
+            try (CSVReader csvReader = new CSVReader(reader)) {
+                return csvReader.readAll();
+            } catch (IOException | CsvException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Rows rws=new Rows();
-        rws.ParseData(Rowss);
-        return Rowss;
+//        List<String> Rowss=null;
+//        // Now calling Files.readString() method to
+//        // read the file
+//        try {
+//            Rowss = Files.readAllLines(fileName);
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        Rows rws=new Rows();
+//        rws.ParseData(Rowss);
+//        return ;
+        return null;
     }
 
     enum SearchBy {
