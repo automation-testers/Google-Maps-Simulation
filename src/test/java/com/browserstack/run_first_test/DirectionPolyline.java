@@ -37,6 +37,7 @@ public class DirectionPolyline {
                     .method("GET",null)
                     .build();
             Response response = client.newCall(request).execute();
+            System.out.println("Response is: "+ response);
 
 
 

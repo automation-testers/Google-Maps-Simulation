@@ -93,15 +93,17 @@ public class FirstTest extends BrowserStackTestNGTest {
 
         WebElement AddAccount = GetElement(wait,0,"add account","android.widget.TextView","");
         AddAccount.click();
-
+        Thread.sleep(4000);
+        
         WebElement EmailIdTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
         EmailIdTextBox.click();
-        Thread.sleep(200);
+        Thread.sleep(2000);
         EmailIdTextBox.sendKeys(Parts[0]);
-
+        
         WebElement SINextButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
         SINextButton.click();
-
+        Thread.sleep(4000);
+        
         WebElement EIdPassword = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.widget.EditText");
         EIdPassword.sendKeys(Parts[1]);
 
@@ -124,11 +126,12 @@ public class FirstTest extends BrowserStackTestNGTest {
 
             EnterAuthCodeLabel.click();
         }
-
+        Thread.sleep(4000);
+        
         WebElement AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
         AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
-
+        Thread.sleep(4000);
 
         //Add phone Number
         try {
@@ -138,7 +141,7 @@ public class FirstTest extends BrowserStackTestNGTest {
                     //Skip Button
                     ScrollForLoctionHistory();
                     FindEle(wait, SearchBy.ByXPath, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View/android.widget.Button").click();
-
+                    Thread.sleep(4000);
                 }
             }
         }catch (Exception e)
@@ -155,7 +158,7 @@ public class FirstTest extends BrowserStackTestNGTest {
                 {
                     //Don't turn On Button
                     FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View/android.widget.Button").click();
-
+                    Thread.sleep(4000);
                 }
             }
         }catch (Exception e){
@@ -169,10 +172,11 @@ public class FirstTest extends BrowserStackTestNGTest {
         {
             IAgree.click();
         }
-
+        Thread.sleep(4000);
+        
         // Accept Backup and Storage
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button").click();
-
+        Thread.sleep(4000);
     }
 
     void SkipLogin() throws Exception
