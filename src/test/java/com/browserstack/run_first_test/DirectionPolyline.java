@@ -17,8 +17,8 @@ public class DirectionPolyline {
 
     public static  List<LatLng> GetDirections (String origin,String destination){
 
-//        String apikey = "AIzaSyB1j-XO-y-RUnGobIxZZJuxx5qDAw8Lt5w";
-        String apikey = "AIzaSyDrJzjYe-EZ5OX__KB8ZTLw8lkuLhERoi4";
+        String apikey = "AIzaSyB1j-XO-y-RUnGobIxZZJuxx5qDAw8Lt5w";
+//        String apikey = "AIzaSyDrJzjYe-EZ5OX__KB8ZTLw8lkuLhERoi4";
         // URL with Parameter to pass
         String url = "https://maps.googleapis.com/maps/api/directions/json?origin="
                 + origin
