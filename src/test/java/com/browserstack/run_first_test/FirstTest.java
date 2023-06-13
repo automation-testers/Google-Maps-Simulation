@@ -63,6 +63,7 @@ public class FirstTest extends BrowserStackTestNGTest {
             Parts = Addresses.get(i);
             Login(Parts);
             //SkipLogin();
+            Thread.sleep(5000);
             performTest(Parts);
             i++;
             if(i<Addresses.size())
@@ -188,7 +189,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     {
         //Get list of lat long
         List<LatLng> latLngs = DirectionPolyline.GetDirections(Parts[5], Parts[6]);
-
+        Thread.sleep(4000);
         Scrolls=0;
         float Lat,Lng,Alt;
         //System.out.println("Location: "+Double.parseDouble(Parts[5])+","+ Double.parseDouble(Parts[6]));

@@ -8,7 +8,7 @@
     "build": "browserstack-gyanadeep",
     "name": "first_test",
     "browserstack.debug": true,
-    "app": "bs://0cbec10197476efe61b9e8c279474ec108530dae"
+    "app": "bs://0ef316e229a3b7b2d2d03feba63945f1262ac562"
   },
 
   "environments": [
