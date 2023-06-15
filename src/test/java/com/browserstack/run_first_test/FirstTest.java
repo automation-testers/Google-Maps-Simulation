@@ -126,6 +126,16 @@ public class FirstTest extends BrowserStackTestNGTest {
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
         Thread.sleep(4000);
 
+        try{
+            AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
+            AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
+            System.out.println("OTP IS:"+TOTPGenerator.getTwoFactorCode(Parts[2]));
+            FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
+            Thread.sleep(4000);
+        }
+        catch (Exception E){
+        }
+
         //Add phone Number
         try {
             WebElement Add_Phn_No = GetElement(wait, 0, "Add phone number?", "android.widget.TextView", "");
@@ -137,13 +147,7 @@ public class FirstTest extends BrowserStackTestNGTest {
                     Thread.sleep(4000);
                 }
             }
-        }catch (Exception e)
-        {
-            AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
-            AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
-            System.out.println("OTP IS:"+TOTPGenerator.getTwoFactorCode(Parts[2]));
-            FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
-            Thread.sleep(4000);
+        }catch (Exception e){
         }
 
         //Never lose your contacts
@@ -159,12 +163,8 @@ public class FirstTest extends BrowserStackTestNGTest {
                 }
             }
         }catch (Exception e){
-            AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
-            AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
-            System.out.println("OTP IS:"+TOTPGenerator.getTwoFactorCode(Parts[2]));
-            FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
-            Thread.sleep(4000);
         }
+
 
         //I Agree
         WebElement IAgree = FindEle(wait,SearchBy.ByButton,"I agree");
