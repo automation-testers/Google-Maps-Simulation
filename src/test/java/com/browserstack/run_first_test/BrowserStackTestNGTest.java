@@ -31,7 +31,8 @@ public class BrowserStackTestNGTest {
     }
 
     void NewDriver() throws Exception
-    {JSONParser parser = new JSONParser();
+    {
+        JSONParser parser = new JSONParser();
         JSONObject config = (JSONObject) parser.parse(new FileReader("src/test/resources/com/browserstack/run_first_test/first.conf.json"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();

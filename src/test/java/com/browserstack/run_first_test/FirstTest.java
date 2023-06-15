@@ -68,8 +68,8 @@ public class FirstTest extends BrowserStackTestNGTest {
             i++;
             if(i<Addresses.size())
             {
-                if(driver!=null)
-                { driver.quit();}
+                driver.quit();
+                Thread.sleep(10000);
                 NewDriver();
             }
         }while(i<Addresses.size());
@@ -422,7 +422,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     try {
         WebElement hereNow= GetElement(wait,0,"Are you here now?","android.widget.TextView","");
         hereNow.click();
-        
+
         WebElement YesButton= GetElement(wait,0,"yes","android.widget.Button","");
         YesButton.click();
     }catch (Exception e)
