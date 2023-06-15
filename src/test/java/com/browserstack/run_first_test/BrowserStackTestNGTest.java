@@ -83,7 +83,6 @@ public class BrowserStackTestNGTest {
 
         try {
             driver.quit();
-            Thread.sleep(10000);
         }catch (Exception e)
         {
 
