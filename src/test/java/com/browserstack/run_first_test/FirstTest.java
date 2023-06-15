@@ -82,14 +82,15 @@ public class FirstTest extends BrowserStackTestNGTest {
     {
         WebElement SignInButton = GetElement(wait,0,"Sign in","android.widget.Button","");
         SignInButton.click();
+        Thread.sleep(5000);
 
         WebElement AddAccount = GetElement(wait,0,"add account","android.widget.TextView","");
         AddAccount.click();
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         WebElement EmailIdTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
         EmailIdTextBox.click();
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         EmailIdTextBox.sendKeys(Parts[0]);
 
         WebElement SINextButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
@@ -98,11 +99,11 @@ public class FirstTest extends BrowserStackTestNGTest {
 
         WebElement EIdPassword = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.widget.EditText");
         EIdPassword.sendKeys(Parts[1]);
+        Thread.sleep(4000);
 
         WebElement PSNextButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
         PSNextButton.click();
-
-
+        Thread.sleep(4000);
 
         WebElement EnterAuthCodeLabel = GetElement(wait,0,"Get a verification code from the Google Authenticator app@Check your","android.widget.TextView","");
 
