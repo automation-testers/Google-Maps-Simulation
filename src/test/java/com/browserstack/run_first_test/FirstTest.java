@@ -419,26 +419,15 @@ public class FirstTest extends BrowserStackTestNGTest {
     Thread.sleep(1000);
     GetElement(wait,1,ShopName,"android.widget.TextView","").click();
 
+    try {
         WebElement hereNow= GetElement(wait,0,"Are you here now?","android.widget.TextView","");
-        if(hereNow!=null)
-        {
-            try {
-                hereNow.click();
-
-            }catch (Exception e)
-            {}
-        }
+        hereNow.click();
+        
         WebElement YesButton= GetElement(wait,0,"yes","android.widget.Button","");
-        if(YesButton!=null)
-        {
-            try {
-                YesButton.click();
-
-            }catch (Exception e)
-            {}
-        }
+        YesButton.click();
+    }catch (Exception e)
+    {}
     Thread.sleep(1000);
-
 }
 
     void Review(String[] Parts) throws InterruptedException {
