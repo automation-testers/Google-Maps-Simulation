@@ -9,8 +9,10 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import java.io.IOException;
@@ -71,7 +73,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     void SetWait()
     {
         wait = new FluentWait(driver)
-                .withTimeout(25, SECONDS)
+                .withTimeout(120, SECONDS)
                 .pollingEvery(10, MILLISECONDS)
                 .ignoring(Exception.class);
     }
@@ -82,29 +84,29 @@ public class FirstTest extends BrowserStackTestNGTest {
     {
         WebElement SignInButton = GetElement(wait,0,"Sign in","android.widget.Button","");
         SignInButton.click();
-        Thread.sleep(5000);
+        Thread.sleep(6000);
 
         WebElement AddAccount = GetElement(wait,0,"add account","android.widget.TextView","");
         AddAccount.click();
-        Thread.sleep(5000);
+        Thread.sleep(12000);
 
         WebElement EmailIdTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
 //        WebElement EmailIdTextBox = FindEle(wait,SearchBy.ByXPath, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
         EmailIdTextBox.click();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         EmailIdTextBox.sendKeys(Parts[0]);
 
         WebElement SINextButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
         SINextButton.click();
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         WebElement EIdPassword = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.widget.EditText");
         EIdPassword.sendKeys(Parts[1]);
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         WebElement PSNextButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
         PSNextButton.click();
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         WebElement EnterAuthCodeLabel = GetElement(wait,0,"Get a verification code from the Google Authenticator app@Check your","android.widget.TextView","");
 
@@ -120,20 +122,20 @@ public class FirstTest extends BrowserStackTestNGTest {
 
             EnterAuthCodeLabel.click();
         }
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         WebElement AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
         AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
         System.out.println("OTP IS:"+TOTPGenerator.getTwoFactorCode(Parts[2]));
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         try{
             AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
             AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
             System.out.println("OTP IS:"+TOTPGenerator.getTwoFactorCode(Parts[2]));
             FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
-            Thread.sleep(4000);
+            Thread.sleep(5000);
         }
         catch (Exception E){
         }
@@ -174,11 +176,11 @@ public class FirstTest extends BrowserStackTestNGTest {
         {
             IAgree.click();
         }
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         // Accept Backup and Storage
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button").click();
-        Thread.sleep(4000);
+        Thread.sleep(5000);
     }
 
     void SkipLogin() throws Exception
