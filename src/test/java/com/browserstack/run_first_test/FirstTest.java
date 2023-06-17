@@ -74,7 +74,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     {
         wait = new FluentWait(driver)
                 .withTimeout(90, SECONDS)
-                .pollingEvery(10, MILLISECONDS)
+                .pollingEvery(3, SECONDS)
                 .ignoring(Exception.class);
     }
 
