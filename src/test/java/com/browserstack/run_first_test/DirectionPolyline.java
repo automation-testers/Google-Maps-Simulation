@@ -17,14 +17,16 @@ public class DirectionPolyline {
 
     public static  List<LatLng> GetDirections (String origin,String destination){
 
-        String apiKey = "AIzaSyB1j-XO-y-RUnGobIxZZJuxx5qDAw8Lt5w";
+        String apikey = "AIzaSyB1j-XO-y-RUnGobIxZZJuxx5qDAw8Lt5w";
+//        String apikey = "AIzaSyDrJzjYe-EZ5OX__KB8ZTLw8lkuLhERoi4";
         // URL with Parameter to pass
         String url = "https://maps.googleapis.com/maps/api/directions/json?origin="
                 + origin
                 + "&destination="
                 + destination
                 + "&key="
-                + apiKey;
+                + apikey;
+        System.out.println("URL IS: "+ url);
 
         try {
             //HTTP Request
@@ -37,6 +39,7 @@ public class DirectionPolyline {
                     .method("GET",null)
                     .build();
             Response response = client.newCall(request).execute();
+            System.out.println("Response is: "+ response);
 
 
 
@@ -56,6 +59,7 @@ public class DirectionPolyline {
             JSONObject json = new JSONObject(response.body().string().toString());
             // Get list of available routes from JSON
             JSONArray routes = json.getJSONArray("routes");
+            System.out.println("Routes are: "+ routes);
             //Get First route from list
             JSONObject route = routes.getJSONObject(0);
             //Get polyline for that specific route

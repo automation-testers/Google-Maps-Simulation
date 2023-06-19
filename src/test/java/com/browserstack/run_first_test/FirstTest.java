@@ -1,75 +1,71 @@
 package com.browserstack.run_first_test;
 
-import CSVReader.Rows;
 import com.google.common.collect.ImmutableMap;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-
-//import io.appium.java_client.touch.offset.PointOption;
 import io.appium.java_client.touch.offset.PointOption;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.tools.ant.taskdefs.Get;
 import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import java.io.IOException;
+import java.io.Reader;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLOutput;
-import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
-import static io.appium.java_client.touch.offset.ElementOption.element;
-import static java.time.Duration.ofSeconds;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-//import io.appium.java_client.TouchAction;
 
 public class FirstTest extends BrowserStackTestNGTest {
 
     int SimulateWait=1000;
 
-    @Test
-    public void test() throws Exception {
+    @DataProvider(name = "test-data")
+    public Object[][] dataProvFunc() throws URISyntaxException {
+        List<String[]> addresses = ReadCsv();
+        Object[][] testData = new Object[addresses.size()-1][];
+        for(int i = 0;i<addresses.size()-1;i++)
+        {
+            testData[i]= new Object[1];
+            testData[i][0] = addresses.get(i+1);
+        }
+
+        System.out.println("In Data Provider"+addresses);
+        return testData;
+    }
+
+    @Test(dataProvider = "test-data")
+    public void test(String[] Parts) throws Exception {
 
         System.out.println("#############Test Started#######");
-        List<String>Addresses =ReadCsv();
-
-        String[] Parts= Addresses.get(1).split(",");
-
-
-//        SkipLogin();
-        int i=1;
-        do  {
-            SetWait();
-            Parts = Addresses.get(i).split(",");
-            Login(Parts);
-            //SkipLogin();
-            performTest(Parts);
-            i++;
-            if(i<Addresses.size())
-            {
-                if(driver!=null)
-                { driver.quit();}
-                NewDriver();
-            }
-        }while(i<Addresses.size());
+        SetWait();
+        // Parts = Addresses.get(i);
+        Login(Parts);
+        //SkipLogin();
+        Thread.sleep(5000);
+        performTest(Parts);
+        //       i++;
+//            if(i<Addresses.size())
+//            {
+//                if(driver!=null)
+//                { driver.quit();
+//                  Thread.sleep(10000);
+//                }
+//                NewDriver();
+//            }
+//        }while(i<Addresses.size());
         System.out.println("#############Test Finished#############");
 
     }
@@ -77,8 +73,8 @@ public class FirstTest extends BrowserStackTestNGTest {
     void SetWait()
     {
         wait = new FluentWait(driver)
-                .withTimeout(25, SECONDS)
-                .pollingEvery(10, MILLISECONDS)
+                .withTimeout(90, SECONDS)
+                .pollingEvery(3, SECONDS)
                 .ignoring(Exception.class);
     }
 
@@ -88,25 +84,37 @@ public class FirstTest extends BrowserStackTestNGTest {
     {
         WebElement SignInButton = GetElement(wait,0,"Sign in","android.widget.Button","");
         SignInButton.click();
+        Thread.sleep(6000);
 
         WebElement AddAccount = GetElement(wait,0,"add account","android.widget.TextView","");
         AddAccount.click();
+        Thread.sleep(10000);
 
         WebElement EmailIdTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
+
+//        try{
+//            EmailIdTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
+//        }
+//        catch (Exception E){
+//            EmailIdTextBox = FindEle(wait,SearchBy.ByXPath, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
+//        }
+//        WebElement EmailIdTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
+//        WebElement EmailIdTextBox = FindEle(wait,SearchBy.ByXPath, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.widget.EditText");
         EmailIdTextBox.click();
-        Thread.sleep(200);
+        Thread.sleep(5000);
         EmailIdTextBox.sendKeys(Parts[0]);
 
         WebElement SINextButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
         SINextButton.click();
+        Thread.sleep(5000);
 
         WebElement EIdPassword = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.widget.EditText");
         EIdPassword.sendKeys(Parts[1]);
+        Thread.sleep(5000);
 
         WebElement PSNextButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button");
         PSNextButton.click();
-
-
+        Thread.sleep(5000);
 
         WebElement EnterAuthCodeLabel = GetElement(wait,0,"Get a verification code from the Google Authenticator app@Check your","android.widget.TextView","");
 
@@ -122,11 +130,23 @@ public class FirstTest extends BrowserStackTestNGTest {
 
             EnterAuthCodeLabel.click();
         }
+        Thread.sleep(5000);
 
         WebElement AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
         AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
+        System.out.println("OTP IS:"+TOTPGenerator.getTwoFactorCode(Parts[2]));
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
+        Thread.sleep(5000);
 
+        try{
+            AuthCodeTextBox = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText");
+            AuthCodeTextBox.sendKeys(TOTPGenerator.getTwoFactorCode(Parts[2]));
+            System.out.println("OTP IS:"+TOTPGenerator.getTwoFactorCode(Parts[2]));
+            FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.widget.Button").click();
+            Thread.sleep(5000);
+        }
+        catch (Exception E){
+        }
 
         //Add phone Number
         try {
@@ -136,12 +156,10 @@ public class FirstTest extends BrowserStackTestNGTest {
                     //Skip Button
                     ScrollForLoctionHistory();
                     FindEle(wait, SearchBy.ByXPath, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View/android.widget.Button").click();
-
+                    Thread.sleep(4000);
                 }
             }
-        }catch (Exception e)
-        {
-
+        }catch (Exception e){
         }
 
         //Never lose your contacts
@@ -153,11 +171,10 @@ public class FirstTest extends BrowserStackTestNGTest {
                 {
                     //Don't turn On Button
                     FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View/android.widget.Button").click();
-
+                    Thread.sleep(4000);
                 }
             }
         }catch (Exception e){
-
         }
 
 
@@ -167,10 +184,11 @@ public class FirstTest extends BrowserStackTestNGTest {
         {
             IAgree.click();
         }
+        Thread.sleep(5000);
 
         // Accept Backup and Storage
         FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button").click();
-
+        Thread.sleep(5000);
     }
 
     void SkipLogin() throws Exception
@@ -182,7 +200,7 @@ public class FirstTest extends BrowserStackTestNGTest {
     {
         //Get list of lat long
         List<LatLng> latLngs = DirectionPolyline.GetDirections(Parts[5], Parts[6]);
-
+        Thread.sleep(4000);
         Scrolls=0;
         float Lat,Lng,Alt;
         //System.out.println("Location: "+Double.parseDouble(Parts[5])+","+ Double.parseDouble(Parts[6]));
@@ -285,7 +303,7 @@ public class FirstTest extends BrowserStackTestNGTest {
 //        WebElement ShowList = GetElement(wait,0,"show list","android.widget.TextView");
 //        ShowList.click();
 
-       // List<AndroidElement> ListElementa =  RecyclerView.findElements(By.className("android.widget.TextView"));
+        // List<AndroidElement> ListElementa =  RecyclerView.findElements(By.className("android.widget.TextView"));
 
 //        PointOption to= PointOption.point(ListElementa.get(0).getLocation()) ;
 //        PointOption from= PointOption.point(ListElementa.get(0).getLocation().getX(),height-100) ;
@@ -392,33 +410,35 @@ public class FirstTest extends BrowserStackTestNGTest {
 //       WebElement DoneButton= FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
         WebElement DoneButton= FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.LinearLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
         if(DoneButton!=null)
-       {
-           try {
-               FindEle(wait,SearchBy.ByXPath,"\t/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
+        {
+            try {
+                FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView");
 
-           }catch (Exception e)
-           {}
-           DoneButton.click();
-       }
+            }catch (Exception e)
+            {}
+            DoneButton.click();
+        }
 //        WebElement element= GetElement(wait,0,"Done","android.widget.TextView");
 //        element
     }
 
     void SaveToTimeLine(String ShopName) throws InterruptedException {
-    WebElement SearchLocationEditText = ActivateSearchBox();
-    //Click on first element from search history
-    GetElement(wait,0,ShopName,"android.widget.TextView","").click();
-    Thread.sleep(1000);
-    GetElement(wait,1,ShopName,"android.widget.TextView","").click();
+        WebElement SearchLocationEditText = ActivateSearchBox();
+        //Click on first element from search history
+        GetElement(wait,0,ShopName,"android.widget.TextView","").click();
+        Thread.sleep(1000);
+        GetElement(wait,1,ShopName,"android.widget.TextView","").click();
 
-    WebElement hereNow= GetElement(wait,0,"Are you here now?","android.widget.TextView","");
-    hereNow.click();
+        try {
+            WebElement hereNow= GetElement(wait,0,"Are you here now?","android.widget.TextView","");
+            hereNow.click();
 
-    WebElement YesButton= GetElement(wait,0,"yes","android.widget.Button","");
-    YesButton.click();
-    Thread.sleep(1000);
-
-}
+            WebElement YesButton= GetElement(wait,0,"yes","android.widget.Button","");
+            YesButton.click();
+        }catch (Exception e)
+        {}
+        Thread.sleep(1000);
+    }
 
     void Review(String[] Parts) throws InterruptedException {
         if(Parts.length>9 && !Parts[9].isEmpty())
@@ -429,6 +449,13 @@ public class FirstTest extends BrowserStackTestNGTest {
 
             WebElement ReviewButton = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.HorizontalScrollView/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.TextView");
             ReviewButton.click();
+
+            try{
+
+            }
+            catch(Exception ex){
+                System.out.println("Review Exception"+ex);
+            }
 
             WebElement Five_Star = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout[2]/android.support.v4.view.ViewPager/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.view.ViewGroup/android.widget.ImageView[5]");
             Five_Star.click();
@@ -444,21 +471,32 @@ public class FirstTest extends BrowserStackTestNGTest {
         }
     }
 
-    public static List<String> ReadCsv() throws URISyntaxException {
+    public static List<String[]> ReadCsv() throws URISyntaxException {
         Path fileName = Paths.get("src/test/resources/Directions.csv");
 //      Path fileName = Paths.get("C:\\Users\\Patil\\Downloads\\Directions.csv");
-        List<String> Rowss=null;
-        // Now calling Files.readString() method to
-        // read the file
-        try {
-            Rowss = Files.readAllLines(fileName);
+
+        try (Reader reader = Files.newBufferedReader(fileName)) {
+            try (CSVReader csvReader = new CSVReader(reader)) {
+                return csvReader.readAll();
+            } catch (IOException | CsvException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Rows rws=new Rows();
-        rws.ParseData(Rowss);
-        return Rowss;
+//        List<String> Rowss=null;
+//        // Now calling Files.readString() method to
+//        // read the file
+//        try {
+//            Rowss = Files.readAllLines(fileName);
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        Rows rws=new Rows();
+//        rws.ParseData(Rowss);
+//        return ;
+        return null;
     }
 
     enum SearchBy {
@@ -572,23 +610,23 @@ public class FirstTest extends BrowserStackTestNGTest {
 //        WebElement Expand_Acc_Details_Option = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ImageButton");
 //        Expand_Acc_Details_Option.click();
         ScrollForLoctionHistory();
-        WebElement Setting_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.TextView[3]");
+        WebElement Setting_Options = FindEle(wait,SearchBy.ByXPath,"\t/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.TextView[3]");
         Setting_Options.click();
-
-        WebElement Google_Location_Setting = FindEle(wait,SearchBy.ByXPath,"\t/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.widget.RelativeLayout/android.widget.TextView");
+        Thread.sleep(4000);
+        WebElement Google_Location_Setting = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.widget.RelativeLayout/android.widget.TextView");
         Google_Location_Setting.click();
-
+        Thread.sleep(4000);
 //        WebElement Timeline_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.RelativeLayout[2]/android.widget.LinearLayout/android.widget.TableLayout/android.widget.TableRow/android.widget.TextView");
 //        Timeline_Options.click();
 
         WebElement Advance_Options = GetElement(wait,0,"Advanced","android.widget.TextView","");
         Advance_Options.click();
-
+        Thread.sleep(4000);
         ScrollForLoctionHistory();
 
         WebElement Google_Loc_History_Options = GetElement(wait,0,"Google Location History","android.widget.TextView","");
 //        WebElement Google_Loc_History_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[7]/android.widget.LinearLayout[2]/android.widget.TextView");
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         Google_Loc_History_Options.click();
 
         WebElement Loc_History_TurnOn_Options = GetElement(wait,0,"Turn","/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.widget.Button","");
@@ -765,4 +803,50 @@ public class FirstTest extends BrowserStackTestNGTest {
                 .moveTo(to).release().perform();
 
     }
+
+    public List<WebElement> FindEles(Wait wait,SearchBy searchBy,String XpathOrId)
+    {
+        return (List<WebElement>) wait.until(new Function<AndroidDriver, List<WebElement>>() {
+            @Override
+            public List<WebElement> apply(AndroidDriver driver) {
+
+
+                if(searchBy==SearchBy.ById)
+                {
+                    return driver.findElements(By.id(XpathOrId));
+                }
+                else if (searchBy==SearchBy.ByXPath){
+                    return driver.findElements(By.xpath(XpathOrId));
+                }
+                else if (searchBy==SearchBy.ByLinkText){
+                    List<WebElement> ListElement=  driver.findElements(By.className("android.widget.TextView"));
+
+                    List<WebElement> ele=  ListElement.stream().filter((item -> ((WebElement)item).getText().contains(XpathOrId))).collect(Collectors.toList());
+                    //  driver.findElements(By.className("android.widget.TextView")).stream().filter((item -> ((WebElement)item).getText().contains("Google Authenticator"))).collect(Collectors.toList());
+                    return ele;
+                    // return ListElement.get(0);
+                    //(WebElement) driver.findElements(By.className("android.widget.TextView")).stream().filter((item -> ((WebElement)item).getText().equals("google"))).collect(Collectors.toList());
+                }
+                else if (searchBy==SearchBy.ByButton){
+                    List<WebElement> ListElement=  driver.findElements(By.className("android.widget.Button"));
+
+                    for(WebElement we : ListElement)
+                    {
+                        for(String str :XpathOrId.split("@"))
+                        {
+                            if(we.getText().contains(str))
+                            {   List<WebElement> webElementList = new ArrayList<>();
+                                webElementList.add(we);
+                                return webElementList;
+                            }
+                        }
+                    }
+                    return null;
+                }
+
+                return null;
+            }
+        });
+    }
+
 }
