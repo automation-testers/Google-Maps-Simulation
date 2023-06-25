@@ -261,6 +261,14 @@ public class FirstTest extends BrowserStackTestNGTest {
 
     WebElement ActivateSearchBox() throws InterruptedException
     {
+        try {
+//            WebElement clearSearch = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout[4]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.EditText/android.widget.TextView");
+//            clearSearch.clear();
+            WebElement clickX = FindEle(wait, SearchBy.ByXPath, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout[4]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.Button/android.widget.ImageView");
+            clickX.click();
+        }
+        catch (Exception E){
+        }
         WebElement SearchLocationTextView = GetElement(wait,0,"Search here","android.widget.TextView","");
         SearchLocationTextView.click();
 
@@ -849,8 +857,8 @@ public class FirstTest extends BrowserStackTestNGTest {
         int width = driver.manage().window().getSize().width;
 
 
-        PointOption to= PointOption.point(100,100) ;
-        PointOption from= PointOption.point(100,height-300) ;
+        PointOption to= PointOption.point(150,150) ;
+        PointOption from= PointOption.point(150,height-250) ;
         action.longPress(from)
                 .moveTo(to).release().perform();
 
