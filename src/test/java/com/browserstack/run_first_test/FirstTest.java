@@ -854,23 +854,23 @@ public class FirstTest extends BrowserStackTestNGTest {
     void ScrollForLoctionHistory() throws InterruptedException {
         //WebElement RecyclerView = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.support.v7.widget.RecyclerView");
 
-        int  x = driver.manage().window().getSize().width / 2;
-        int start_y = (int) (driver.manage().window().getSize().height * 0.2);
-        int end_y = (int) (driver.manage().window().getSize().height * 0.8);
-        TouchAction dragNDrop = new TouchAction(driver)
-                .press(PointOption.point(x,start_y)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
-                .moveTo(PointOption.point(x, end_y))
-                .release();
-        dragNDrop.perform();
-//        TouchAction action = new TouchAction(driver);
-//
-//        int height = driver.manage().window().getSize().height;
-//        int width = driver.manage().window().getSize().width;
-//
-//        PointOption to= PointOption.point(100,100) ;
-//        PointOption from= PointOption.point(100,height-300) ;
-//        action.longPress(from)
-//                .moveTo(to).release().perform();
+//        int  x = driver.manage().window().getSize().width / 2;
+//        int start_y = (int) (driver.manage().window().getSize().height * 0.2);
+//        int end_y = (int) (driver.manage().window().getSize().height * 0.8);
+//        TouchAction dragNDrop = new TouchAction(driver)
+//                .press(PointOption.point(x,start_y)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+//                .moveTo(PointOption.point(x, end_y))
+//                .release();
+//        dragNDrop.perform();
+        TouchAction action = new TouchAction(driver);
+
+        int height = driver.manage().window().getSize().height;
+        int width = driver.manage().window().getSize().width;
+
+        PointOption to= PointOption.point(100,100) ;
+        PointOption from= PointOption.point(100,height-300) ;
+        action.longPress(from)
+                .moveTo(to).release().perform();
 
     }
 
