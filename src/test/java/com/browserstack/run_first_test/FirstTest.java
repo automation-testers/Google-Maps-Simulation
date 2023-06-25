@@ -6,6 +6,7 @@ import com.opencsv.exceptions.CsvException;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
@@ -21,6 +22,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -651,6 +653,7 @@ public class FirstTest extends BrowserStackTestNGTest {
             More_Options.click();
 //            Thread.sleep(2000);
             ScrollForLoctionHistory();
+
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.TextView[3]")));
             WebElement Setting_Options = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout/android.widget.ListView/android.widget.TextView[3]");
             Setting_Options.click();
@@ -851,16 +854,23 @@ public class FirstTest extends BrowserStackTestNGTest {
     void ScrollForLoctionHistory() throws InterruptedException {
         //WebElement RecyclerView = FindEle(wait,SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.support.v7.widget.RecyclerView");
 
-        TouchAction action = new TouchAction(driver);
-
-        int height = driver.manage().window().getSize().height;
-        int width = driver.manage().window().getSize().width;
-
-
-        PointOption to= PointOption.point(150,150) ;
-        PointOption from= PointOption.point(150,height-250) ;
-        action.longPress(from)
-                .moveTo(to).release().perform();
+        int  x = driver.manage().window().getSize().width / 2;
+        int start_y = (int) (driver.manage().window().getSize().height * 0.2);
+        int end_y = (int) (driver.manage().window().getSize().height * 0.8);
+        TouchAction dragNDrop = new TouchAction(driver)
+                .press(PointOption.point(x,start_y)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+                .moveTo(PointOption.point(x, end_y))
+                .release();
+        dragNDrop.perform();
+//        TouchAction action = new TouchAction(driver);
+//
+//        int height = driver.manage().window().getSize().height;
+//        int width = driver.manage().window().getSize().width;
+//
+//        PointOption to= PointOption.point(100,100) ;
+//        PointOption from= PointOption.point(100,height-300) ;
+//        action.longPress(from)
+//                .moveTo(to).release().perform();
 
     }
 
