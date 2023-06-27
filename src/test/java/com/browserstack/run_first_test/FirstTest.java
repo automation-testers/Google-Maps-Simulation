@@ -437,7 +437,7 @@ public class FirstTest extends BrowserStackTestNGTest {
             Add_comment.sendKeys(Parts[9]);
             WebElement Post_Button = FindEle(wait, com.browserstack.run_first_test.FirstTest.SearchBy.ByXPath,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[3]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.Button");
             Post_Button.click();
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         }
     }
     public static List<String[]> ReadCsv() throws URISyntaxException {
